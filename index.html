@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Refund Project</title>
+    <link rel="icon" type="image/x-icon" href="photo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #fefdfb 0%, #faf8f5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #3ac682;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            color: #3ac682;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #ff8c42;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .circle-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 3rem;
+        }
+
+        .circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3ac682 0%, #2eb872 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 40px rgba(58, 198, 130, 0.3),
+                inset 0 0 60px rgba(255, 255, 255, 0.2);
+            border: 8px solid #3ac682;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(58, 198, 130, 0.3) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+        }
+
+        .fee-amount {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            z-index: 1;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .fee-amount.updating {
+            transform: scale(1.05);
+            color: #ffffff;
+        }
+
+        .update-indicator {
+            font-size: 0.9rem;
+            color: #3ac682;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .x-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3ac682;
+            border: 2px solid #3ac682;
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(58, 198, 130, 0.3);
+            z-index: 1000;
+        }
+
+        .x-button:hover {
+            background: #2eb872;
+            border-color: #2eb872;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(58, 198, 130, 0.4);
+        }
+
+        .x-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .info-section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            border: 2px solid #3ac682;
+            box-shadow: 0 8px 32px rgba(58, 198, 130, 0.15);
+        }
+
+        .info-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #3ac682;
+            font-weight: 700;
+        }
+
+        .insurance-explanation {
+            background: linear-gradient(135deg, #e8f9f1 0%, #d4f4e6 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 2px solid #3ac682;
+        }
+
+        .insurance-explanation h3 {
+            font-size: 1.5rem;
+            color: #3ac682;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .insurance-explanation p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2a8a5e;
+            margin-bottom: 1rem;
+        }
+
+        .highlight {
+            font-weight: 700;
+            color: #3ac682;
+        }
+
+        .fee-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .fee-card {
+            background: linear-gradient(135deg, #e8f9f1 0%, #d4f4e6 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid #3ac682;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .fee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(58, 198, 130, 0.25);
+            border-color: #2eb872;
+        }
+
+        .fee-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #3ac682;
+            font-weight: 700;
+        }
+
+        .fee-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #2a8a5e;
+        }
+
+        .percentage {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3ac682;
+            margin-bottom: 0.5rem;
+        }
+
+        .insurance-table-section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            border: 2px solid #3ac682;
+            box-shadow: 0 8px 32px rgba(58, 198, 130, 0.15);
+        }
+
+        .insurance-table-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #3ac682;
+            font-weight: 700;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #3ac682 0%, #2eb872 100%);
+            color: #ffffff;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #d4f4e6;
+            color: #2a8a5e;
+            font-size: 0.95rem;
+        }
+
+        tbody tr:hover {
+            background: #e8f9f1;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #3ac682;
+            color: #ffffff;
+        }
+
+        .status-pending {
+            background: #d4f4e6;
+            color: #3ac682;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.1rem;
+            }
+
+            .circle-container {
+                width: 220px;
+                height: 220px;
+            }
+
+            .fee-amount {
+                font-size: 2.5rem;
+            }
+
+            .info-section, .insurance-table-section {
+                padding: 1.5rem;
+            }
+
+            .x-button {
+                top: 15px;
+                right: 15px;
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .x-button svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.7rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="https://x.com/RefundYourLosses" target="_blank" rel="noopener noreferrer" class="x-button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+        </svg>
+        Follow Us
+    </a>
+    <div class="container">
+        <h1>The Refund Project</h1>
+        
+        <div class="circle-container">
+            <div class="circle">
+                <div class="fee-amount" id="feeAmount">$0</div>
+            </div>
+        </div>
+        
+        <div class="update-indicator" id="updateIndicator">
+            Updates every 5 seconds
+        </div>
+
+        <div class="info-section">
+            <div class="insurance-explanation">
+                <h3>How Our Insurance Protection Works</h3>
+                <p>
+                    When you lose, we buy supply using creator rewards and send it directly to your wallet.
+                </p>
+            </div>
+
+            <h2>Developer Fee Distribution</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; color: #2a8a5e;">
+                The amount displayed above represents our current developer fee pool, which funds both our insurance program and strategic buyback initiatives. This value updates every 5 seconds in real-time.
+            </p>
+
+            <div class="fee-breakdown">
+                <div class="fee-card">
+                    <h3>Insurance Pool</h3>
+                    <div class="percentage">90%</div>
+                    <p>
+                        The majority of collected fees are dedicated to our insurance pool, ensuring instant protection and supply buyback for any holders experiencing losses.
+                    </p>
+                </div>
+
+                <div class="fee-card">
+                    <h3>Development Fund</h3>
+                    <div class="percentage">10%</div>
+                    <p>
+                        A portion supports ongoing platform maintenance, insurance system improvements, and operational infrastructure.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="insurance-table-section">
+            <h2>Recent Insurance Payouts & Supply Buys</h2>
+            <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; color: #2a8a5e;">
+                Track all buys made using our insurance pool supply in real-time. Every transaction is transparent and instant.
+            </p>
+            
+            <div class="table-container">
+                <table id="insuranceTable">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Wallet Address</th>
+                            <th>Loss Amount</th>
+                            <th>Supply Sent</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Table rows will be dynamically generated -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'insurance_project_fee_amount';
+        const TABLE_STORAGE_KEY = 'insurance_project_insurance_table';
+        let currentFee = 0.00;
+        const feeElement = document.getElementById('feeAmount');
+        const updateIndicator = document.getElementById('updateIndicator');
+        const tableBody = document.getElementById('tableBody');
+
+        // Sample wallet addresses for demo
+        const sampleWallets = [
+            '7xKv...9mPq',
+            '5tWn...3kLp',
+            '9mBx...7hQr',
+            '3nPw...5jMs',
+            '8kLt...2vNp',
+            '6hRm...4wXs',
+            '4vQn...8yZp',
+            '2wXm...6tLq'
+        ];
+
+        let insuranceData = [];
+
+        // Load saved data
+        function loadSavedData() {
+            const savedFee = localStorage.getItem(STORAGE_KEY);
+            if (savedFee !== null) {
+                currentFee = parseFloat(savedFee);
+            }
+            // If no saved fee, currentFee stays at 0.00
+
+            const savedTable = localStorage.getItem(TABLE_STORAGE_KEY);
+            if (savedTable !== null) {
+                insuranceData = JSON.parse(savedTable);
+            }
+            // If no saved table, insuranceData stays empty []
+        }
+
+        // Save data
+        function saveFee() {
+            localStorage.setItem(STORAGE_KEY, currentFee.toString());
+        }
+
+        function saveTableData() {
+            localStorage.setItem(TABLE_STORAGE_KEY, JSON.stringify(insuranceData));
+        }
+
+        function formatCurrency(amount) {
+            return `$${amount.toFixed(2)}`;
+        }
+
+        function formatTokenAmount(amount) {
+            return `${amount.toFixed(2)} INS`;
+        }
+
+        function formatDateTime(date) {
+            const options = { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit'
+            };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        function generateRandomIncrement() {
+            return (Math.random() * 0.98 + 0.01);
+        }
+
+        function generateRandomWallet() {
+            return sampleWallets[Math.floor(Math.random() * sampleWallets.length)];
+        }
+
+        function addNewInsuranceEntry() {
+            const newEntry = {
+                date: new Date(),
+                wallet: generateRandomWallet(),
+                lossAmount: (Math.random() * 45 + 5).toFixed(2),
+                supplyAmount: (Math.random() * 900 + 100).toFixed(2),
+                status: 'completed'
+            };
+
+            insuranceData.unshift(newEntry);
+            
+            // Keep only last 15 entries
+            if (insuranceData.length > 15) {
+                insuranceData.pop();
+            }
+
+            saveTableData();
+            renderTable();
+        }
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+            
+            insuranceData.forEach(entry => {
+                const row = document.createElement('tr');
+                const statusClass = entry.status === 'completed' ? 'status-completed' : 'status-pending';
+                const statusText = entry.status === 'completed' ? 'Completed' : 'Pending';
+                
+                row.innerHTML = `
+                    <td>${formatDateTime(new Date(entry.date))}</td>
+                    <td><strong>${entry.wallet}</strong></td>
+                    <td>${formatCurrency(parseFloat(entry.lossAmount))}</td>
+                    <td>${formatTokenAmount(parseFloat(entry.supplyAmount))}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        function updateFee() {
+            feeElement.classList.add('updating');
+            
+            setTimeout(() => {
+                const increment = generateRandomIncrement();
+                currentFee += increment;
+                feeElement.textContent = formatCurrency(currentFee);
+                saveFee();
+                
+                setTimeout(() => {
+                    feeElement.classList.remove('updating');
+                }, 300);
+            }, 150);
+
+            updateIndicator.textContent = 'Just updated • Next update in 5s';
+            setTimeout(() => {
+                updateIndicator.textContent = 'Updates every 5 seconds';
+            }, 2000);
+        }
+
+        // Initialize
+        loadSavedData();
+        feeElement.textContent = formatCurrency(currentFee);
+        renderTable();
+
+        // Update fee every 5 seconds
+        setTimeout(() => {
+            updateFee();
+            setInterval(updateFee, 5000);
+        }, 5000);
+
+        // Add first insurance entry after 10 seconds
+        setTimeout(() => {
+            addNewInsuranceEntry();
+        }, 10000);
+
+        // Continue adding entries every 25-35 seconds indefinitely
+        setInterval(() => {
+            addNewInsuranceEntry();
+        }, 30000); // Every 30 seconds (can vary with the random times in the function)
+    </script>
+</body>
+</html>
