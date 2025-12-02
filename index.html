@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Formula</title>
-    <link rel="icon" type="image/x-icon" href="formula.jpg">
+    <title>A Fun Collection</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #FFF8F3;
+            background-color: #fefefe;
             color: #1a1a1a;
             line-height: 1.6;
             overflow-x: hidden;
@@ -152,12 +151,11 @@
         }
 
         .highlight-box {
-            background: #fff;
+            background: #f8f8f8;
             padding: 50px;
             border-radius: 12px;
             margin: 50px 0;
             border-left: 4px solid #FF8C42;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
         }
 
         .highlight-box h2 {
@@ -185,30 +183,6 @@
 
         .formula-display span {
             color: #FF8C42;
-        }
-
-        /* Tweet section */
-        .tweet-section {
-            margin: 60px 0;
-            text-align: center;
-        }
-
-        .tweet-section h3 {
-            font-size: 1.4rem;
-            font-weight: 300;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .tweet-container {
-            display: flex;
-            justify-content: center;
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.04);
-            max-width: 550px;
-            margin: 0 auto;
         }
 
         /* CTA Button */
@@ -269,7 +243,7 @@
         }
 
         .modal-content {
-            background-color: #FFF8F3;
+            background-color: #fff;
             padding: 50px;
             border-radius: 15px;
             max-width: 700px;
@@ -303,55 +277,8 @@
             text-align: center;
         }
 
-        /* Holdings Circle */
-        .circle-container {
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 30px;
-        }
-
-        .circle {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        }
-
-        .sol-amount {
-            font-size: 2.2rem;
-            font-weight: 300;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .sol-amount.updating {
-            transform: scale(1.05);
-            color: #FF8C42;
-        }
-
-        .sol-label {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 8px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .update-indicator {
-            font-size: 0.9rem;
-            color: #999;
-            font-weight: 300;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
         .modal-info {
-            background: #fff;
+            background: #f8f8f8;
             padding: 30px;
             border-radius: 12px;
             border-left: 4px solid #FF8C42;
@@ -385,7 +312,7 @@
         .allocation-item {
             text-align: center;
             padding: 20px;
-            background: #FFF8F3;
+            background: #fff;
             border-radius: 8px;
         }
 
@@ -399,6 +326,33 @@
         .allocation-label {
             font-size: 0.9rem;
             color: #666;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.7;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         /* Animations */
@@ -489,35 +443,30 @@
 <body>
     <!-- Navigation -->
     <nav class="nav">
-        <a href="#" class="nav-btn" onclick="openModal(); return false;">Solana Holdings</a>
-        <a href="https://x.com/TheFormulaCoin_" class="nav-btn x-btn" target="_blank">𝕏</a>
+        <a href="#" class="nav-btn" onclick="openModal(); return false;">Cards Bought</a>
+        <a href="https://x.com/AFunCollection" class="nav-btn x-btn" target="_blank">𝕏</a>
     </nav>
 
-    <!-- Holdings Modal -->
+    <!-- Cards Bought Modal -->
     <div id="holdings-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2>Solana Holdings</h2>
+            <h2>Cards Bought</h2>
             
-            <div class="circle-container">
-                <div class="circle">
-                    <div class="sol-amount" id="solAmount">0 SOL</div>
-                    <span class="sol-label">Total Accumulated</span>
-                </div>
-            </div>
-            
-            <div class="update-indicator" id="updateIndicator">
-                Updates every 5 seconds
+            <div class="empty-state">
+                <div class="empty-icon">📦</div>
+                <h3>No Cards Yet</h3>
+                <p>We haven't purchased any Pokémon cards yet. As creator rewards accumulate, we'll begin acquiring every card with "Fun" in the name. Check back soon!</p>
             </div>
 
             <div class="modal-info">
-                <h3>How The Formula Works</h3>
-                <p>The amount displayed above represents our current Solana accumulation. This value automatically updates to reflect real-time growth of our treasury position.</p>
+                <h3>How It Works</h3>
+                <p>Creator rewards from our project are pooled together. Once we hit our target, we purchase Pokémon cards featuring "Fun" in the name and add them to the collection.</p>
                 
                 <div class="allocation-grid">
                     <div class="allocation-item">
                         <div class="allocation-percent">90%</div>
-                        <div class="allocation-label">Accumulation</div>
+                        <div class="allocation-label">Card Purchases</div>
                     </div>
                     <div class="allocation-item">
                         <div class="allocation-percent">10%</div>
@@ -530,8 +479,8 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1 class="logo">The Formula</h1>
-        <p class="hero-subtitle">Using Michael Saylor's New Formula to Buy Solana with Creator Fees</p>
+        <h1 class="logo">A Fun Collection</h1>
+        <p class="hero-subtitle">We Buy Every Pokémon Card Named "Fun" Using Creator Rewards</p>
         <div class="scroll-prompt">
             Scroll to learn more
             <div class="scroll-arrow">↓</div>
@@ -543,29 +492,29 @@
         <div class="container">
             
             <section class="section" data-section="1">
-                <h2>The Strategy</h2>
-                <p>We're applying Michael Saylor's proven formula — the same approach that transformed Strategy Inc. into a Bitcoin treasury powerhouse — to build a profitable position on Solana during this market dip.</p>
+                <h2>The Vision</h2>
+                <p>Inspired by Elon's approach to bold, unconventional collecting — we're using creator rewards to systematically acquire every Pokémon card with "Fun" in the name.</p>
                 
                 <div class="formula-display">
-                    <span>Buy the Dip</span> → Hold with Conviction → <span>Compound Gains</span>
+                    <span>Earn Rewards</span> → Find "Fun" Cards → <span>Build the Collection</span>
                 </div>
             </section>
 
             <section class="section" data-section="2">
                 <div class="highlight-box">
                     <h2>Why This Works</h2>
-                    <p>Saylor's approach is elegant: use market volatility as opportunity, not threat. When prices drop, accumulate. When sentiment turns fearful, stay disciplined. This formula has generated billions in gains for Strategy Inc., and we're bringing it to Solana.</p>
+                    <p>Creator rewards generate passive income. Instead of cashing out, we reinvest every cent into hunting down rare and common Pokémon cards featuring "Fun" in their name. A simple thesis, executed with discipline.</p>
                 </div>
             </section>
 
             <section class="section" data-section="3">
-                <h2>Disciplined Accumulation</h2>
-                <p>Every dip is an opportunity. Every moment of market fear is a chance to strengthen our position. We don't panic sell — we strategically accumulate, building a treasury that compounds over time.</p>
+                <h2>The Hunt Continues</h2>
+                <p>Every reward earned is another step toward completing the ultimate "Fun" collection. We don't stop until we own them all — from the commons to the chase cards.</p>
             </section>
 
             <div class="cta-section">
                 <button class="holdings-btn" onclick="openModal()">
-                    View Solana Holdings
+                    View Cards Bought
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14"/>
                         <path d="m12 5 7 7-7 7"/>
@@ -575,9 +524,6 @@
 
         </div>
     </main>
-
-    <!-- Twitter Widget -->
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
     <script>
         // Modal functions
@@ -595,59 +541,6 @@
                 event.target.classList.remove('active');
             }
         }
-
-        // SOL Holdings Counter
-        const STORAGE_KEY = 'formula_sol_amount_v2';
-        let currentSol = 0.00;
-        const solElement = document.getElementById('solAmount');
-        const updateIndicator = document.getElementById('updateIndicator');
-
-        function loadSavedSol() {
-            const savedSol = localStorage.getItem(STORAGE_KEY);
-            if (savedSol !== null) {
-                currentSol = parseFloat(savedSol);
-            }
-        }
-
-        function saveSol() {
-            localStorage.setItem(STORAGE_KEY, currentSol.toString());
-        }
-
-        function formatSol(amount) {
-            return `${amount.toFixed(2)} SOL`;
-        }
-
-        function generateRandomIncrement() {
-            return (Math.random() * 1.45 + 0.05);
-        }
-
-        function updateSol() {
-            solElement.classList.add('updating');
-            
-            setTimeout(() => {
-                const increment = generateRandomIncrement();
-                currentSol += increment;
-                solElement.textContent = formatSol(currentSol);
-                saveSol();
-                
-                setTimeout(() => {
-                    solElement.classList.remove('updating');
-                }, 300);
-            }, 150);
-
-            updateIndicator.textContent = 'Just updated • Next in 5s';
-            setTimeout(() => {
-                updateIndicator.textContent = 'Updates every 5 seconds';
-            }, 2000);
-        }
-
-        loadSavedSol();
-        solElement.textContent = formatSol(currentSol);
-
-        setTimeout(() => {
-            updateSol();
-            setInterval(updateSol, 5000);
-        }, 5000);
 
         // Scroll animations
         const sections = document.querySelectorAll('.section');
