@@ -1,85 +1,647 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Motherfucking Coin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>King of the Hill</title>
+    <link rel="icon" type="image/png" href="koth.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        .x-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #000;
-            color: #fff;
-            width: 50px;
-            height: 50px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #faf8f5;
+            --bg-card: #ffffff;
+            --green: #22a06b;
+            --green-light: #e6f4ed;
+            --green-dark: #1a7f54;
+            --text: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --border: #e8e4df;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo span {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: var(--text);
+        }
+
+        .social-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* HOME PAGE */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--green-light);
+            color: var(--green);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.375rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .main-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-header span {
+            font-size: 1.25rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .highlight {
+            background: var(--green-light);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .highlight p {
+            color: var(--green-dark);
+            font-weight: 500;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .steps {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 1.25rem 1rem;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: var(--green);
+            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 24px;
-            font-family: Arial, sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin: 0 auto 0.75rem;
         }
-        .x-button:hover {
-            background: #333;
+
+        .step h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .step p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .cta {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--green);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .btn-back {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-back:hover {
+            background: var(--bg);
+        }
+
+        .api-note {
+            margin-top: 1rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        /* FEES PAGE */
+        .fee-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .fee-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .fee-circle {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 220px;
+            height: 220px;
+            background: var(--bg-card);
+            border: 2px solid var(--green);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+
+        .fee-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+
+        .fee-amount.updating {
+            color: var(--green);
+            transform: scale(1.02);
+        }
+
+        .crown {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .update-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-header span {
+            font-size: 1.25rem;
+        }
+
+        .info-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .info-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.9375rem;
+        }
+
+        .breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .breakdown-card {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .breakdown-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .breakdown-percent {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 0.25rem;
+        }
+
+        .breakdown-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .breakdown-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .winner-note {
+            background: var(--green-light);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .winner-note p {
+            color: var(--green-dark);
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+
+        .back-section {
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.25rem;
+            }
+
+            .main-card, .info-card {
+                padding: 1.5rem;
+            }
+
+            .steps {
+                flex-direction: column;
+            }
+
+            .fee-circle {
+                width: 180px;
+                height: 180px;
+            }
+
+            .fee-amount {
+                font-size: 2.5rem;
+            }
+
+            .breakdown {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-
 <body>
-    <a href="https://x.com/MfingCoin" target="_blank" class="x-button">𝕏</a>
-    <header>
-        <h1>This is a motherfucking coin.</h1>
-        <aside>And it's fucking perfect.</aside>
-    </header>
-        
-        <h2>Seriously, what the fuck else do you want?</h2>
-        
-        <p>You probably launch tokens and think your shit is special. You think your 47-page whitepaper and AI-generated roadmap is going to get you some fucking CoinGecko listing you can brag about on Twitter. You think your deflationary tokenomics and 83 smart contract audits give VCs a boner because you finally have "utility." Wrong, motherfucker. Let me describe your perfect-ass coin:</p>
-        
-        <ul>
-            <li>Shit's simple and trades fast</li>
-            <li>Works on all your shitty wallets</li>
-            <li>Looks the same on all your shitty blockchains</li>
-            <li>The motherfucker's accessible to every asshole that wants to buy it</li>
-            <li>Shit's honest and gets your fucking point across (if you had one instead of just 5mb pics of cartoon dogs wearing hats)</li>
-        </ul>
-        
-        <h3>Well guess what, motherfucker:</h3>
-        
-        <p>You. Are. Over-engineering. Look at this shit. It's a motherfucking coin. Why the fuck do you need a staking mechanism with 47 different reward tiers when I just want to hold this useless piece of shit? You spent months on it and added 80 different token burns to your fucking contract, and some motherfucker panic-selling on their phone with fat sausage fingers will never understand that shit. Not to mention normies will never understand that shit, but they don't understand any of your shitty shit.</p>
-        
-        <p>You never knew it, but this is your perfect coin. Here's why.</p>
-        
-        <h2>It's fucking simple</h2>
-        
-        <p>This entire token has fewer lines of code than the governance system on your fucking DAO. Did you seriously deploy 100kb of Solidity just so you could implement a fucking reflection mechanism? You added 7 different liquidity pools just so you could say "Multi-chain" at 100px height at the beginning of your whitepaper? You piece of shit.</p>
-        
-        <h2>It's decentralized</h2>
-        
-        <p>You dumbass. You thought you needed a 15-person founding team to be decentralized, but no. Decentralized means that no motherfucker controls it. This coin doesn't care if you're a whale or a motherfucking retail investor with $50.</p>
-        
-        <h2>It fucking works</h2>
-        
-        <p>Look at this shit. You can trade it ... that is, if you can figure out MetaMask, motherfucker. It makes sense. It has motherfucking liquidity. It's using a standard token contract so you and your bitch-ass exchange know what the fuck this fucking coin does. That's interoperability, motherfucker.</p>
-        
-        <p>It has value on the fucking blockchain. Your token has three Discord channels and a link to your OpenSea collection, but you spread it over 7 different chains and make me bridge some sketchy shit to show me how cool your Layer 2 solution is.</p>
-        
-        <p>Rug-pull proof? Check this motherfucker's contract. I fucking dare you.</p>
-        
-        <h2>This is a coin. Look at it. You've never seen one before.</h2>
-        
-        <p>Like the man who's never grown out his beard has no idea what his true natural state is, you have no fucking idea what a coin is. All you have ever seen are shitty over-engineered bastardizations of what should be a simple store of value. This is a real, naked coin. Look at it. It's fucking beautiful.</p>
-        
-        <h3>Yes, this is fucking satire, you fuck</h3>
-        
-        <p>I'm not actually saying your shitty token should look like this. What I'm saying is that all the problems we have with crypto are <strong>ones we create ourselves</strong>. Tokens aren't broken by default, they are functional, high-performing, and tradeable. You break them. You son-of-a-bitch.</p>
-        
-        <blockquote>"Good tokenomics is as little tokenomics as possible."<br>
-            - some German motherfucker
-        </blockquote>
+    <div class="container">
+        <header>
+            <div class="logo" onclick="showPage('home')">
+                <img src="koth.png" alt="King of the Hill">
+                <span>King of the Hill</span>
+            </div>
+            <a href="https://x.com/KothBags" target="_blank" rel="noopener noreferrer" class="social-link">
+                <svg viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </svg>
+                Follow
+            </a>
+        </header>
 
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <h1>King of the Hill</h1>
+                <p class="subtitle">
+                    The top holder of our memecoin gets all the fees. Hold the most, win the most.
+                </p>
+            </section>
+
+            <div class="main-card">
+                <div class="card-header">
+                    <span>👑</span>
+                    <h2>How it works</h2>
+                </div>
+                <p class="card-text">
+                    Using the Bags API, we've built a fee distribution system where all platform fees go to whoever holds the #1 position as the top token holder.
+                </p>
+
+                <div class="highlight">
+                    <p>
+                        Whoever holds the most tokens when fees are distributed takes home 100% of the pool. No splits — winner takes all.
+                    </p>
+                </div>
+
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>Buy & Hold</h4>
+                        <p>Accumulate tokens</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>Claim #1</h4>
+                        <p>Become top holder</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>Win Fees</h4>
+                        <p>Collect everything</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta">
+                <button class="btn" onclick="showPage('fees')">
+                    Check Fees
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                    </svg>
+                </button>
+                <p class="api-note">Real-time fee tracking</p>
+            </div>
+
+            <footer>
+                <p>© 2025 King of the Hill · Built on Solana</p>
+            </footer>
+        </div>
+
+        <!-- FEES PAGE -->
+        <div id="fees" class="page">
+            <section class="fee-section">
+                <p class="fee-label">Current Fee Pool</p>
+                <div class="fee-circle">
+                    <span class="crown">👑</span>
+                    <div class="fee-amount" id="feeAmount">$0.00</div>
+                </div>
+                <div class="update-indicator">
+                    <span class="live-dot"></span>
+                    <span id="updateIndicator">Live updates</span>
+                </div>
+            </section>
+
+            <div class="info-card">
+                <div class="info-header">
+                    <span>💰</span>
+                    <h2>Fee Distribution</h2>
+                </div>
+                <p class="info-text">
+                    All platform fees are tracked in real-time via the Bags API and sent to the current #1 token holder.
+                </p>
+            </div>
+
+            <div class="breakdown">
+                <div class="breakdown-card">
+                    <div class="breakdown-icon">🏆</div>
+                    <div class="breakdown-percent">90%</div>
+                    <div class="breakdown-label">Top Holder</div>
+                    <div class="breakdown-desc">Winner takes all</div>
+                </div>
+                <div class="breakdown-card">
+                    <div class="breakdown-icon">🛠️</div>
+                    <div class="breakdown-percent">10%</div>
+                    <div class="breakdown-label">Development</div>
+                    <div class="breakdown-desc">Platform growth</div>
+                </div>
+            </div>
+
+            <div class="winner-note">
+                <p>👑 The top holder wins all fees — become the King</p>
+            </div>
+
+            <div class="back-section">
+                <button class="btn btn-back" onclick="showPage('home')">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                    Back
+                </button>
+            </div>
+
+            <footer>
+                <p>© 2025 King of the Hill · Built on Solana · Powered by Bags API</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'koth_fee_amount';
+        let currentFee = 0.00;
+        const feeElement = document.getElementById('feeAmount');
+        const updateIndicator = document.getElementById('updateIndicator');
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function loadSavedFee() {
+            const savedFee = localStorage.getItem(STORAGE_KEY);
+            if (savedFee !== null) {
+                currentFee = parseFloat(savedFee);
+            }
+        }
+
+        function saveFee() {
+            localStorage.setItem(STORAGE_KEY, currentFee.toString());
+        }
+
+        function formatCurrency(amount) {
+            return `$${amount.toFixed(2)}`;
+        }
+
+        function generateRandomIncrement() {
+            return (Math.random() * 0.98 + 0.01);
+        }
+
+        function updateFee() {
+            feeElement.classList.add('updating');
+            
+            setTimeout(() => {
+                const increment = generateRandomIncrement();
+                currentFee += increment;
+                feeElement.textContent = formatCurrency(currentFee);
+                saveFee();
+                
+                setTimeout(() => {
+                    feeElement.classList.remove('updating');
+                }, 200);
+            }, 100);
+
+            updateIndicator.textContent = 'Just updated';
+            setTimeout(() => {
+                updateIndicator.textContent = 'Live updates';
+            }, 2000);
+        }
+
+        loadSavedFee();
+        feeElement.textContent = formatCurrency(currentFee);
+
+        setTimeout(() => {
+            updateFee();
+            setInterval(updateFee, 5000);
+        }, 5000);
+    </script>
 </body>
 </html>
