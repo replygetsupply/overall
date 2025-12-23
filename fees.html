@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blizzard Check Fees</title>
+    <title>Blizzard - Check Fees</title>
     <link rel="icon" type="image/x-icon" href="snow.png">
     <style>
         * {
@@ -282,15 +282,39 @@
             createSnowflake();
         }, 50);
 
-        // Fee counter animation
-        let feeAmount = 0;
+        // Fee counter animation with localStorage
+        let feeAmount = parseFloat(localStorage.getItem('blizzardFees')) || 0;
         const devWallet = "DevWallet7x...K9m3Qp";
         let transactionCount = 0;
+        
+        // Display stored fee amount immediately
+        document.getElementById('feeCounter').textContent = feeAmount.toFixed(2);
         
         setInterval(() => {
             feeAmount += 0.01;
             document.getElementById('feeCounter').textContent = feeAmount.toFixed(2);
-        }, 2000);
+            localStorage.setItem('blizzardFees', feeAmount.toFixed(2));
+        }, 500);
+
+        // Load stored transactions
+        let storedTransactions = JSON.parse(localStorage.getItem('blizzardTransactions')) || [];
+        
+        // Display stored transactions on load
+        function loadStoredTransactions() {
+            const transactionList = document.getElementById('transactionList');
+            storedTransactions.forEach(tx => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><span class="tx-type ${tx.type === 'Purchase' ? 'tx-purchase' : 'tx-distribution'}">${tx.type}</span></td>
+                    <td>${tx.amount}</td>
+                    <td>${tx.wallet}</td>
+                    <td>${tx.time}</td>
+                `;
+                transactionList.appendChild(row);
+            });
+        }
+        
+        loadStoredTransactions();
 
         // Add transactions from dev wallet periodically
         function addTransaction() {
@@ -302,22 +326,39 @@
             const types = ['Purchase', 'Distribution'];
             const type = types[Math.floor(Math.random() * types.length)];
             
+            const newTransaction = {
+                type: type,
+                amount: type === 'Purchase' ? randomAmount + ' SOL' : '$0.10 BLIZZARD',
+                wallet: devWallet,
+                time: 'Just now'
+            };
+            
             const row = document.createElement('tr');
             row.style.animation = 'fadeIn 0.5s ease-in';
             
             row.innerHTML = `
                 <td><span class="tx-type ${type === 'Purchase' ? 'tx-purchase' : 'tx-distribution'}">${type}</span></td>
-                <td>${type === 'Purchase' ? randomAmount + ' SOL' : '$0.10 BLIZZARD'}</td>
+                <td>${newTransaction.amount}</td>
                 <td>${devWallet}</td>
                 <td>Just now</td>
             `;
             
             transactionList.insertBefore(row, transactionList.firstChild);
             
+            // Add to stored transactions
+            storedTransactions.unshift(newTransaction);
+            
             // Keep only last 10 transactions
             if (transactionList.children.length > 10) {
                 transactionList.removeChild(transactionList.lastChild);
             }
+            
+            if (storedTransactions.length > 10) {
+                storedTransactions = storedTransactions.slice(0, 10);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('blizzardTransactions', JSON.stringify(storedTransactions));
             
             // Update timestamps
             const rows = transactionList.querySelectorAll('tr');
@@ -330,11 +371,11 @@
             });
         }
 
-        // Add first transaction after 3 seconds, then every 8 seconds
+        // Add first transaction after 1 second, then every 2 seconds
         setTimeout(() => {
             addTransaction();
-            setInterval(addTransaction, 8000);
-        }, 3000);
+            setInterval(addTransaction, 2000);
+        }, 1000);
     </script>
 </body>
 </html>
