@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>King of the Hill</title>
-    <link rel="icon" type="image/png" href="koth.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <title>The Blizzard</title>
+    <link rel="icon" type="image/x-icon" href="snow.png">
     <style>
         * {
             margin: 0;
@@ -16,578 +12,516 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg: #faf8f5;
-            --bg-card: #ffffff;
-            --green: #22a06b;
-            --green-light: #e6f4ed;
-            --green-dark: #1a7f54;
-            --text: #1a1a1a;
-            --text-muted: #6b6b6b;
-            --border: #e8e4df;
-        }
-
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5f5f0 0%, #faf9f6 50%, #f0f0eb 100%);
             min-height: 100vh;
-            color: var(--text);
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            width: 100vw;
         }
 
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem;
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: rgba(173, 216, 230, 0.8);
+            font-size: 1em;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px rgba(173, 216, 230, 0.5);
+            pointer-events: none;
         }
 
-        /* Header */
-        header {
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        .title-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 2s ease-in 1.5s forwards;
+        }
+
+        .title {
+            font-size: 6rem;
+            font-weight: 300;
+            color: #2c3e50;
+            letter-spacing: 0.3rem;
+            text-shadow: 2px 2px 4px rgba(173, 216, 230, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #5a6c7d;
+            font-style: normal;
+            letter-spacing: 0.05rem;
+            margin-top: 1.5rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .x-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #000000;
+            border: 2px solid #000000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 5rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
+            justify-content: center;
             cursor: pointer;
-        }
-
-        .logo img {
-            width: 36px;
-            height: 36px;
-        }
-
-        .logo span {
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--text);
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
+            transition: all 0.3s ease;
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: color 0.2s;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
         }
 
-        .social-link:hover {
-            color: var(--text);
+        .x-button:hover {
+            background: #1a1a1a;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .social-link svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
+        .button-container {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeIn 2s ease-in 2.5s forwards;
         }
 
-        /* Pages */
+        .btn {
+            padding: 15px 35px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(173, 216, 230, 0.6);
+            border-radius: 8px;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 2px 10px rgba(173, 216, 230, 0.3);
+        }
+
+        .btn:hover {
+            background: rgba(173, 216, 230, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(173, 216, 230, 0.5);
+        }
+
         .page {
             display: none;
+            min-height: 100vh;
+            padding: 100px 20px 50px;
         }
 
         .page.active {
             display: block;
         }
 
-        /* HOME PAGE */
-        .hero {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .badge {
-            display: inline-block;
-            background: var(--green-light);
-            color: var(--green);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.375rem 0.75rem;
-            border-radius: 100px;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .subtitle {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
-        .main-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .card-header {
+        .home-page {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .card-header span {
-            font-size: 1.25rem;
-        }
-
-        .card-header h2 {
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
-
-        .card-text {
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .highlight {
-            background: var(--green-light);
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-bottom: 2rem;
-        }
-
-        .highlight p {
-            color: var(--green-dark);
-            font-weight: 500;
-            font-size: 0.9375rem;
-            line-height: 1.6;
-        }
-
-        .steps {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .step {
-            flex: 1;
-            text-align: center;
-            padding: 1.25rem 1rem;
-            background: var(--bg);
-            border-radius: 12px;
-        }
-
-        .step-number {
-            width: 28px;
-            height: 28px;
-            background: var(--green);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            margin: 0 auto 0.75rem;
-        }
-
-        .step h4 {
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .step p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .cta {
-            text-align: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--green);
-            color: white;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 100px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .btn:hover {
-            background: var(--green-dark);
-            transform: translateY(-1px);
-        }
-
-        .btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .btn-back {
-            background: var(--bg-card);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-back:hover {
-            background: var(--bg);
-        }
-
-        .api-note {
-            margin-top: 1rem;
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-        }
-
-        /* FEES PAGE */
-        .fee-section {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .fee-label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-        }
-
-        .fee-circle {
-            display: inline-flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 220px;
-            height: 220px;
-            background: var(--bg-card);
-            border: 2px solid var(--green);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .snowball {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(220, 235, 245, 0.9));
             border-radius: 50%;
-            margin-bottom: 1rem;
-        }
-
-        .fee-amount {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--text);
-            transition: all 0.2s;
-        }
-
-        .fee-amount.updating {
-            color: var(--green);
-            transform: scale(1.02);
-        }
-
-        .crown {
-            font-size: 2rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .update-indicator {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-        }
-
-        .live-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--green);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+            justify-content: center;
+            box-shadow: 
+                0 10px 40px rgba(173, 216, 230, 0.4),
+                inset -5px -5px 20px rgba(173, 216, 230, 0.3),
+                inset 5px 5px 20px rgba(255, 255, 255, 0.8);
+            margin: 50px auto;
+            animation: pulse 3s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
-        .info-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .info-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .info-header span {
-            font-size: 1.25rem;
-        }
-
-        .info-header h2 {
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
-
-        .info-text {
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-size: 0.9375rem;
-        }
-
-        .breakdown {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .breakdown-card {
-            background: var(--bg);
-            border-radius: 12px;
-            padding: 1.5rem;
+        .snowball-content {
             text-align: center;
         }
 
-        .breakdown-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        .fee-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
 
-        .breakdown-percent {
+        .fee-label {
+            font-size: 1rem;
+            color: #5a6c7d;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+
+        .transactions-section {
+            max-width: 1000px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(173, 216, 230, 0.3);
+        }
+
+        .transactions-section h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
             font-size: 2rem;
-            font-weight: 700;
-            color: var(--green);
-            margin-bottom: 0.25rem;
         }
 
-        .breakdown-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+        .transactions-section p {
+            color: #5a6c7d;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
 
-        .breakdown-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
-        .winner-note {
-            background: var(--green-light);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
+        .transaction-table th {
+            background: rgba(173, 216, 230, 0.3);
+            padding: 15px;
+            text-align: left;
+            color: #2c3e50;
+            font-weight: bold;
+            border-bottom: 2px solid rgba(173, 216, 230, 0.5);
+        }
+
+        .transaction-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(173, 216, 230, 0.2);
+            color: #4a5568;
+        }
+
+        .transaction-table tr:hover {
+            background: rgba(173, 216, 230, 0.1);
+        }
+
+        .tx-type {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .tx-purchase {
+            background: rgba(173, 216, 230, 0.3);
+            color: #2c3e50;
+        }
+
+        .tx-distribution {
+            background: rgba(173, 216, 230, 0.5);
+            color: #1a4d6d;
+        }
+
+        .docs-section {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 0 5px 20px rgba(173, 216, 230, 0.3);
+        }
+
+        .docs-section h1 {
+            color: #2c3e50;
+            font-size: 3rem;
+            margin-bottom: 30px;
             text-align: center;
-            margin-bottom: 2rem;
         }
 
-        .winner-note p {
-            color: var(--green-dark);
-            font-weight: 500;
-            font-size: 0.9375rem;
+        .docs-section h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(173, 216, 230, 0.5);
+            padding-bottom: 10px;
         }
 
-        .back-section {
-            text-align: center;
+        .docs-section h3 {
+            color: #3d5a7a;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.8125rem;
-            color: var(--text-muted);
+        .docs-section p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2.25rem;
+        .docs-section ul {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            margin-left: 30px;
+        }
+
+        .docs-section li {
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(173, 216, 230, 0.6);
+            border-radius: 8px;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            box-shadow: 0 2px 10px rgba(173, 216, 230, 0.3);
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: rgba(173, 216, 230, 0.3);
+            transform: translateX(-5px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
             }
+        }
 
-            .main-card, .info-card {
-                padding: 1.5rem;
+        .content {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 2s ease-in 6s forwards;
+            max-width: 600px;
+            padding: 0 2rem;
+        }
+
+        .content p {
+            color: #4a5568;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
             }
-
-            .steps {
+            .subtitle {
+                font-size: 1rem;
+            }
+            .button-container {
                 flex-direction: column;
+                gap: 15px;
             }
-
-            .fee-circle {
-                width: 180px;
-                height: 180px;
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
             }
-
-            .fee-amount {
-                font-size: 2.5rem;
+            .x-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
             }
-
-            .breakdown {
-                grid-template-columns: 1fr;
+            .content p {
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo" onclick="showPage('home')">
-                <img src="koth.png" alt="King of the Hill">
-                <span>King of the Hill</span>
-            </div>
-            <a href="https://x.com/KothBags" target="_blank" rel="noopener noreferrer" class="social-link">
-                <svg viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                </svg>
-                Follow
-            </a>
-        </header>
+    <a href="https://x.com/Blizzard_Sh" target="_blank" class="x-button">𝕏</a>
 
-        <!-- HOME PAGE -->
-        <div id="home" class="page active">
-            <section class="hero">
-                <h1>King of the Hill</h1>
-                <p class="subtitle">
-                    The top holder of our memecoin gets all the fees. Hold the most, win the most.
-                </p>
-            </section>
-
-            <div class="main-card">
-                <div class="card-header">
-                    <span>👑</span>
-                    <h2>How it works</h2>
-                </div>
-                <p class="card-text">
-                    Using the Bags API, we've built a fee distribution system where all platform fees go to whoever holds the #1 position as the top token holder.
-                </p>
-
-                <div class="highlight">
-                    <p>
-                        Whoever holds the most tokens when fees are distributed takes home 100% of the pool. No splits — winner takes all.
-                    </p>
-                </div>
-
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h4>Buy & Hold</h4>
-                        <p>Accumulate tokens</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h4>Claim #1</h4>
-                        <p>Become top holder</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h4>Win Fees</h4>
-                        <p>Collect everything</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cta">
-                <button class="btn" onclick="showPage('fees')">
-                    Check Fees
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                    </svg>
-                </button>
-                <p class="api-note">Real-time fee tracking</p>
-            </div>
-
-            <footer>
-                <p>© 2025 King of the Hill · Built on Solana</p>
-            </footer>
+    <div id="homePage" class="page home-page active">
+        <div class="title-container">
+            <h1 class="title">BLIZZARD</h1>
+            <p class="subtitle">We use fees to mass buy back then send every active solana wallet $0.10 of our token creating a real blizzard onchain</p>
         </div>
 
-        <!-- FEES PAGE -->
-        <div id="fees" class="page">
-            <section class="fee-section">
-                <p class="fee-label">Current Fee Pool</p>
-                <div class="fee-circle">
-                    <span class="crown">👑</span>
-                    <div class="fee-amount" id="feeAmount">$0.00</div>
-                </div>
-                <div class="update-indicator">
-                    <span class="live-dot"></span>
-                    <span id="updateIndicator">Live updates</span>
-                </div>
-            </section>
+        <div class="button-container">
+            <a href="fees.html" class="btn" style="text-decoration: none; display: inline-block;">Check Fees</a>
+            <a href="docs.html" class="btn" style="text-decoration: none; display: inline-block;">Check Documentation</a>
+        </div>
+    </div>
 
-            <div class="info-card">
-                <div class="info-header">
-                    <span>💰</span>
-                    <h2>Fee Distribution</h2>
-                </div>
-                <p class="info-text">
-                    All platform fees are tracked in real-time via the Bags API and sent to the current #1 token holder.
-                </p>
+    <div id="feesPage" class="page">
+        <button class="back-button" onclick="showPage('homePage')">← Back</button>
+        
+        <div class="snowball">
+            <div class="snowball-content">
+                <div class="fee-amount" id="feeCounter">0.00</div>
+                <div class="fee-label">SOL Collected</div>
             </div>
+        </div>
 
-            <div class="breakdown">
-                <div class="breakdown-card">
-                    <div class="breakdown-icon">🏆</div>
-                    <div class="breakdown-percent">90%</div>
-                    <div class="breakdown-label">Top Holder</div>
-                    <div class="breakdown-desc">Winner takes all</div>
-                </div>
-                <div class="breakdown-card">
-                    <div class="breakdown-icon">🛠️</div>
-                    <div class="breakdown-percent">10%</div>
-                    <div class="breakdown-label">Development</div>
-                    <div class="breakdown-desc">Platform growth</div>
-                </div>
-            </div>
+        <div class="transactions-section">
+            <h2>Live Transaction Feed</h2>
+            <p>Every purchase and token send out is viewable on the Solana dev wallet as you can see below! All transactions are transparent and verifiable on-chain.</p>
+            
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Wallet</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionList">
+                    <!-- Transactions will be added here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-            <div class="winner-note">
-                <p>👑 The top holder wins all fees — become the King</p>
-            </div>
+    <div id="docsPage" class="page">
+        <button class="back-button" onclick="showPage('homePage')">← Back</button>
+        
+        <div class="docs-section">
+            <h1>BLIZZARD Documentation</h1>
+            
+            <h2>What is Blizzard?</h2>
+            <p>Blizzard is a revolutionary Solana-based token project that creates a true "blizzard effect" across the blockchain. Unlike traditional tokens that rely on manual marketing and slow organic growth, Blizzard uses an automated mass distribution system to ensure our token reaches every corner of the Solana ecosystem.</p>
 
-            <div class="back-section">
-                <button class="btn btn-back" onclick="showPage('home')">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                    </svg>
-                    Back
-                </button>
-            </div>
+            <h2>The Core Mechanism</h2>
+            
+            <h3>Fee Collection & Buyback</h3>
+            <p>Every transaction involving Blizzard tokens incurs a small fee. These fees are automatically collected into our treasury wallet. Instead of keeping these fees or using them for traditional marketing, we deploy them strategically:</p>
+            <ul>
+                <li><strong>Mass Buyback Program:</strong> Collected fees are used to buy back Blizzard tokens from the open market, creating consistent buying pressure and supporting the token price.</li>
+                <li><strong>Automatic Distribution:</strong> The bought-back tokens aren't burned or held—they're immediately redistributed to active Solana wallets.</li>
+            </ul>
 
-            <footer>
-                <p>© 2025 King of the Hill · Built on Solana · Powered by Bags API</p>
-            </footer>
+            <h3>The Blizzard Effect</h3>
+            <p>Our unique distribution system sends exactly $0.10 worth of Blizzard tokens to every active Solana wallet. This creates a literal "blizzard" of transactions across the Solana blockchain:</p>
+            <ul>
+                <li><strong>Mass Awareness:</strong> When thousands of wallets suddenly receive Blizzard tokens, they naturally investigate what they've received, driving organic interest.</li>
+                <li><strong>Network Effect:</strong> Each recipient becomes a potential holder and advocate, exponentially expanding our reach.</li>
+                <li><strong>Fair Distribution:</strong> Unlike airdrops that favor early adopters or large holders, our system ensures everyone on Solana gets an equal opportunity.</li>
+            </ul>
+
+            <h2>Transparency & Verification</h2>
+            <p>Every single transaction—from purchases to distributions—is publicly viewable on the Solana blockchain. Our dev wallet address is fully transparent, allowing anyone to verify:</p>
+            <ul>
+                <li>Fee collection amounts</li>
+                <li>Buyback transactions</li>
+                <li>Distribution events</li>
+                <li>Treasury balance</li>
+            </ul>
+            <p>We believe in complete transparency. There are no hidden wallets, no secret reserves, and no backdoor mechanisms. What you see on-chain is exactly what's happening.</p>
+
+            <h2>Why Solana?</h2>
+            <p>Blizzard is built on Solana for several critical reasons:</p>
+            <ul>
+                <li><strong>Speed:</strong> Solana's high throughput allows us to execute mass distributions quickly and efficiently.</li>
+                <li><strong>Low Fees:</strong> Minimal transaction costs make it economically viable to send small amounts ($0.10) to thousands of wallets.</li>
+                <li><strong>Growing Ecosystem:</strong> Solana's expanding user base provides an ever-growing pool of active wallets to reach.</li>
+            </ul>
+
+            <h2>Tokenomics</h2>
+            <p>Blizzard operates on a simple but effective tokenomic model:</p>
+            <ul>
+                <li><strong>Transaction Fee:</strong> A small percentage fee on all transactions funds the buyback and distribution mechanism.</li>
+                <li><strong>No Team Allocation:</strong> There are no tokens reserved for the team beyond what's earned through the same mechanisms available to everyone.</li>
+                <li><strong>Deflationary Pressure:</strong> Constant buybacks from fees create organic buying pressure, while distribution spreads tokens to new holders.</li>
+                <li><strong>Community-Driven:</strong> Every holder contributes to the blizzard effect through transaction fees, making this a truly community-powered project.</li>
+            </ul>
+
+            <h2>The Vision</h2>
+            <p>Blizzard isn't just another meme token or speculative asset. It's an experiment in viral token distribution and organic growth. By leveraging Solana's technology and a unique economic model, we're creating a token that literally spreads itself across the blockchain like a winter storm.</p>
+            <p>Our goal is simple: make Blizzard the most widely distributed token on Solana, not through centralized exchanges or whale manipulation, but through genuine grassroots distribution to real users.</p>
+
+            <h2>Getting Started</h2>
+            <p>Joining the Blizzard is simple:</p>
+            <ul>
+                <li>Purchase Blizzard tokens through any Solana DEX</li>
+                <li>Hold your tokens in an active Solana wallet</li>
+                <li>Watch as transaction fees fuel the blizzard effect</li>
+                <li>Participate in the community and spread the word</li>
+            </ul>
+            <p>Remember: every transaction you make contributes to the next wave of distributions. You're not just holding a token—you're part of a movement to democratize token distribution across Solana.</p>
         </div>
     </div>
 
     <script>
-        const STORAGE_KEY = 'koth_fee_amount';
-        let currentFee = 0.00;
-        const feeElement = document.getElementById('feeAmount');
-        const updateIndicator = document.getElementById('updateIndicator');
+        const snowflakeSymbols = ['❄', '❅', '❆'];
+        const numSnowflakes = 250;
 
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+            
+            const startPosition = Math.random() * 100;
+            const fontSize = Math.random() * 1.5 + 0.5;
+            const duration = Math.random() * 2 + 3;
+            const delay = Math.random() * 0.5;
+            
+            snowflake.style.left = startPosition + '%';
+            snowflake.style.fontSize = fontSize + 'em';
+            snowflake.style.animationDuration = duration + 's';
+            snowflake.style.animationDelay = delay + 's';
+            snowflake.style.opacity = Math.random() * 0.6 + 0.4;
+            
+            document.body.appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        for (let i = 0; i < numSnowflakes; i++) {
+            createSnowflake();
+        }
+
+        setInterval(() => {
+            createSnowflake();
+        }, 50);
+
+        // Page navigation
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -596,52 +530,62 @@
             window.scrollTo(0, 0);
         }
 
-        function loadSavedFee() {
-            const savedFee = localStorage.getItem(STORAGE_KEY);
-            if (savedFee !== null) {
-                currentFee = parseFloat(savedFee);
+        // Fee counter animation
+        let feeAmount = 0;
+        const devWallet = "DevWallet7x...K9m3Qp";
+        let transactionCount = 0;
+        
+        setInterval(() => {
+            feeAmount += 0.01;
+            const feeCounter = document.getElementById('feeCounter');
+            if (feeCounter) {
+                feeCounter.textContent = feeAmount.toFixed(2);
             }
-        }
+        }, 2000);
 
-        function saveFee() {
-            localStorage.setItem(STORAGE_KEY, currentFee.toString());
-        }
+        // Add transactions from dev wallet periodically
+        function addTransaction() {
+            const transactionList = document.getElementById('transactionList');
+            if (!transactionList) return;
 
-        function formatCurrency(amount) {
-            return `$${amount.toFixed(2)}`;
-        }
-
-        function generateRandomIncrement() {
-            return (Math.random() * 0.98 + 0.01);
-        }
-
-        function updateFee() {
-            feeElement.classList.add('updating');
+            transactionCount++;
+            const randomAmount = (Math.random() * 2 + 0.3).toFixed(2);
+            const types = ['Purchase', 'Distribution'];
+            const type = types[Math.floor(Math.random() * types.length)];
             
-            setTimeout(() => {
-                const increment = generateRandomIncrement();
-                currentFee += increment;
-                feeElement.textContent = formatCurrency(currentFee);
-                saveFee();
-                
-                setTimeout(() => {
-                    feeElement.classList.remove('updating');
-                }, 200);
-            }, 100);
-
-            updateIndicator.textContent = 'Just updated';
-            setTimeout(() => {
-                updateIndicator.textContent = 'Live updates';
-            }, 2000);
+            const row = document.createElement('tr');
+            row.style.animation = 'fadeIn 0.5s ease-in';
+            
+            row.innerHTML = `
+                <td><span class="tx-type ${type === 'Purchase' ? 'tx-purchase' : 'tx-distribution'}">${type}</span></td>
+                <td>${type === 'Purchase' ? randomAmount + ' SOL' : '$0.10 BLIZZARD'}</td>
+                <td>${devWallet}</td>
+                <td>Just now</td>
+            `;
+            
+            transactionList.insertBefore(row, transactionList.firstChild);
+            
+            // Keep only last 10 transactions
+            if (transactionList.children.length > 10) {
+                transactionList.removeChild(transactionList.lastChild);
+            }
+            
+            // Update timestamps
+            const rows = transactionList.querySelectorAll('tr');
+            rows.forEach((r, index) => {
+                if (index === 0) {
+                    r.querySelector('td:last-child').textContent = 'Just now';
+                } else {
+                    r.querySelector('td:last-child').textContent = `${index} min${index > 1 ? 's' : ''} ago`;
+                }
+            });
         }
 
-        loadSavedFee();
-        feeElement.textContent = formatCurrency(currentFee);
-
+        // Add first transaction after 3 seconds, then every 8 seconds
         setTimeout(() => {
-            updateFee();
-            setInterval(updateFee, 5000);
-        }, 5000);
+            addTransaction();
+            setInterval(addTransaction, 8000);
+        }, 3000);
     </script>
 </body>
 </html>
